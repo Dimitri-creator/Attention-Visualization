@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React + TS</title>
+    <style>
+      #tooltip {
+        position: absolute;
+        display: none;
+        padding: 8px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        border-radius: 4px;
+        font-family: sans-serif;
+        font-size: 12px;
+        pointer-events: none; /* So it doesn't interfere with raycasting */
+        z-index: 1000; /* Ensure it's on top */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="gui-container" style="position: absolute; top: 10px; right: 10px;"></div>
+    <div id="info-panel" style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.5); color: white; padding: 10px; border-radius: 5px; max-width: 300px;">
+      <h4>Information Panel</h4>
+      <p>Details about the current step will appear here.</p>
+    </div>
+    <div id="input-panel" style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.5); color: white; padding: 10px; border-radius: 5px;">
+      <h4>Input Controls</h4>
+      <div>
+        <label for="token-input">Tokens (comma-separated):</label><br>
+        <input type="text" id="token-input" value="hello,world,transformer" style="width: 200px; margin-bottom: 5px;"><br>
+        <label for="dmodel-input">d_model:</label><br>
+        <input type="number" id="dmodel-input" value="8" min="4" max="512" step="4" style="width: 60px; margin-bottom: 5px;"><br>
+        <label for="num-heads-input">Num Heads:</label><br>
+        <input type="number" id="num-heads-input" value="2" min="1" max="8" step="1" style="width: 60px; margin-bottom: 5px;"><br>
+        <label for="dk-input">d_k per head (d_model / Num Heads):</label><br>
+        <input type="number" id="dk-input" value="4" min="2" max="512" step="2" style="width: 60px; margin-bottom: 5px; background-color: #555;" readonly><br>
+        <label for="dff-input">d_ff (FFN Inner Dim):</label><br>
+        <input type="number" id="dff-input" value="32" min="4" max="2048" step="4" style="width: 60px; margin-bottom: 5px;"><br>
+        <button id="generate-button" style="margin-bottom: 5px;">Generate Input Embeddings</button><br>
+        <button id="calculate-qkv-button" style="margin-bottom: 5px;">Calculate Multi-Head Q, K, V</button><br>
+        <button id="run-all-heads-sdpa-button" style="margin-bottom: 5px;">Run SDPA for All Heads</button><br>
+        <button id="concatenate-finalize-mha-button" style="margin-bottom: 5px;">Concatenate Heads & Final Projection</button><br>
+        <button id="add-norm-mha-button" style="margin-bottom: 5px;">Add & Norm after MHA</button><br>
+        <button id="run-ffn-button" style="margin-bottom: 5px;">Run Position-wise FFN</button><br>
+        <button id="add-norm-ffn-button" style="margin-bottom: 5px;">Add & Norm after FFN</button><br>
+        <button id="calculate-attention-button" style="margin-bottom: 5px; display: none;" title="Operates on first head if Num Heads > 1">Calculate Attention Scores (Head 0)</button><br>
+        <button id="calculate-output-button" style="display: none;" title="Operates on first head if Num Heads > 1">Apply Softmax & Calculate Output (Head 0)</button>
+      </div>
+    </div>
+    <div id="viz-control-panel" style="position: absolute; top: 520px; left: 10px; background: rgba(0,0,0,0.5); color: white; padding: 10px; border-radius: 5px;">
+      <h4>Visualization Controls</h4>
+    </div>
+    <div id="animation-control-panel" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.5); color: white; padding: 10px; border-radius: 5px;">
+      <h4>Animation Controls</h4>
+    </div>
+    <div id="tooltip"></div> <!-- Tooltip DIV -->
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

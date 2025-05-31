@@ -1,0 +1,4 @@
+body { margin: 0; font-family: sans-serif; }
+canvas { display: block; }
+#gui-container { z-index: 100; }
+/* Add more styles for other panels as needed */
